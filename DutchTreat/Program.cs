@@ -1,13 +1,33 @@
 ﻿var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("config.json")
+    .AddEnvironmentVariables();
+
 // Add services to the container.
+builder.Services.AddDbContext<DutchContext>(cfg =>
+{
+    cfg.UseSqlServer();
+});
+
 builder.Services.AddTransient<IMailService, NullMailService>();
+builder.Services.AddTransient<DutchSeeder>();
 
 builder.Services.AddMvc();
 
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+if (args.Length == 1 && args[0].ToLower() == "/seed")
+{
+    Console.WriteLine("Seeding database...");
+    var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
+    using var scope = scopeFactory.CreateScope();
+    var seeder = app.Services.GetService<DutchSeeder>();
+    seeder.Seed();
+    return;
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
