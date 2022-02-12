@@ -1,4 +1,6 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using System.Text.Json.Serialization;
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("config.json")
@@ -12,6 +14,13 @@ builder.Services.AddDbContext<DutchContext>(cfg =>
 
 builder.Services.AddTransient<IMailService, NullMailService>();
 builder.Services.AddTransient<DutchSeeder>();
+builder.Services.AddScoped<IDutchRepository, DutchRepository>();
+
+builder.Services.AddControllersWithViews()
+    .AddRazorRuntimeCompilation()
+    .AddJsonOptions(options =>
+        // Handle circular references in entities
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 builder.Services.AddMvc();
 
