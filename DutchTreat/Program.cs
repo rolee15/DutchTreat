@@ -5,6 +5,12 @@ builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddEnvironmentVariables();
 
 // Add services to the container.
+builder.Services.AddIdentity<StoreUser, IdentityRole>( cfg =>
+{
+    cfg.User.RequireUniqueEmail = true;
+})
+    .AddEntityFrameworkStores<DutchContext>();
+
 builder.Services.AddDbContext<DutchContext>(cfg =>
 {
     cfg.UseSqlServer();
@@ -48,6 +54,9 @@ app.UseStaticFiles();
 app.MapRazorPages();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {

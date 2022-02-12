@@ -1,4 +1,5 @@
 ﻿using DutchTreat.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DutchTreat.Controllers
@@ -38,7 +39,7 @@ namespace DutchTreat.Controllers
             }
             else
             {
-                // Show errorr
+                // Show error
             }
             return View();
         }
@@ -51,6 +52,7 @@ namespace DutchTreat.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Shop()
         {
             var results = _repository.GetAllProducts();
