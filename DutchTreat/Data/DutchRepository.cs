@@ -18,13 +18,19 @@ namespace DutchTreat.Data
             _context.Add(model);
         }
 
-        public IEnumerable<Order> GetAllOrders()
+        public IEnumerable<Order> GetAllOrders(bool includeItems)
         {
             _logger.LogInformation("GetAllOrders was called");
-            return _context.Orders
-                           .Include(o => o.Items)
-                           .ThenInclude(i => i.Product)
-                           .ToList();
+
+            if (includeItems)
+            {
+                return _context.Orders
+                               .Include(o => o.Items)
+                               .ThenInclude(i => i.Product)
+                               .ToList();
+            }
+
+            return _context.Orders.ToList();
         }
 
         public IEnumerable<Product> GetAllProducts()
