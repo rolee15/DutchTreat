@@ -7,16 +7,36 @@ namespace DutchTreat.Data
     {
         private readonly DutchContext _context;
         private readonly IWebHostEnvironment _environment;
+        private readonly UserManager<StoreUser> _userManager;
 
-        public DutchSeeder(DutchContext context, IWebHostEnvironment environment)
+        public DutchSeeder(DutchContext context, IWebHostEnvironment environment, UserManager<StoreUser> userManager)
         {
             _context = context;
             _environment = environment;
+            _userManager = userManager;
         }
 
-        public void Seed()
+        public async Task SeedAsync()
         {
             _context.Database.EnsureCreated();
+
+            StoreUser user = await _userManager.FindByEmailAsync("shawn@dutchtreat.com");
+            if (user == null)
+            {
+                user = new StoreUser()
+                {
+                    FirstName = "Shawn",
+                    LastName =  "Wildermuth",
+                    Email = "shawn@dutchtreat.com",
+                    UserName = "shawn@dutchtreat.com"
+                };
+
+                var result = await _userManager.CreateAsync(user, "London12");
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create new user in seeder.");
+                }
+            }
 
             if (!_context.Products.Any())
             {

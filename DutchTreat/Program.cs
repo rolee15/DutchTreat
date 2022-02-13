@@ -5,16 +5,18 @@ builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddEnvironmentVariables();
 
 // Add services to the container.
-builder.Services.AddIdentity<StoreUser, IdentityRole>( cfg =>
-{
-    cfg.User.RequireUniqueEmail = true;
-})
-    .AddEntityFrameworkStores<DutchContext>();
-
 builder.Services.AddDbContext<DutchContext>(cfg =>
 {
     cfg.UseSqlServer();
 });
+
+builder.Services.AddIdentity<StoreUser, IdentityRole>(options => 
+    {
+        options.User.RequireUniqueEmail = true;
+        options.Password.RequireNonAlphanumeric = false;
+    })
+    .AddEntityFrameworkStores<DutchContext>();
+
 
 builder.Services.AddTransient<IMailService, NullMailService>();
 builder.Services.AddTransient<DutchSeeder>();
@@ -28,9 +30,9 @@ builder.Services.AddControllersWithViews()
         // Handle circular references in entities
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
-builder.Services.AddMvc();
-
 builder.Services.AddRazorPages();
+
+builder.Services.AddMvc();
 
 var app = builder.Build();
 
@@ -40,15 +42,11 @@ if (args.Length == 1 && args[0].ToLower() == "/seed")
     var scopeFactory = app.Services.GetService<IServiceScopeFactory>();
     using var scope = scopeFactory.CreateScope();
     var seeder = app.Services.GetService<DutchSeeder>();
-    seeder.Seed();
+    seeder.SeedAsync().Wait();
     return;
 }
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/error");
-}
 app.UseStaticFiles();
 
 app.MapRazorPages();
