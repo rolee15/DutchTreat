@@ -1,4 +1,7 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("config.json")
@@ -17,6 +20,17 @@ builder.Services.AddIdentity<StoreUser, IdentityRole>(options =>
     })
     .AddEntityFrameworkStores<DutchContext>();
 
+builder.Services.AddAuthentication()
+    .AddCookie()
+    .AddJwtBearer(jwtOptions =>
+    {         
+        jwtOptions.TokenValidationParameters = new()
+        {
+            ValidIssuer = builder.Configuration.GetSection("Tokens:Issuer").Value,
+            ValidAudience = builder.Configuration.GetSection("Tokens:Audience").Value,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Tokens:Key").Value))
+        };
+    });
 
 builder.Services.AddTransient<IMailService, NullMailService>();
 builder.Services.AddTransient<DutchSeeder>();
