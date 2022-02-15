@@ -39,10 +39,7 @@ builder.Services.AddScoped<IDutchRepository, DutchRepository>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddControllersWithViews()
-    .AddRazorRuntimeCompilation()
-    .AddJsonOptions(options =>
-        // Handle circular references in entities
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+    .AddRazorRuntimeCompilation();
 
 builder.Services.AddRazorPages();
 
