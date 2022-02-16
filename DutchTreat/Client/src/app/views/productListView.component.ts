@@ -13,9 +13,7 @@ export default class ProductListView implements OnInit {
 
   ngOnInit(): void {
     this.store.loadProducts()
-      .subscribe(() => {
-        //
-      }); // <- Kicks off the operation
+      .subscribe(); // <- Kicks off the operation
 
   }
 }
