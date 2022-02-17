@@ -1,5 +1,4 @@
-﻿using DutchTreat.Data.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DutchTreat.Data
 {

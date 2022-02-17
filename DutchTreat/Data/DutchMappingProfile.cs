@@ -1,5 +1,4 @@
-﻿using DutchTreat.Data.Entities;
-using DutchTreat.ViewModels;
+﻿using DutchTreat.ViewModels;
 
 namespace DutchTreat.Data
 {

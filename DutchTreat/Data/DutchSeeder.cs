@@ -1,5 +1,4 @@
-﻿using DutchTreat.Data.Entities;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace DutchTreat.Data
 {
@@ -26,7 +25,7 @@ namespace DutchTreat.Data
                 user = new StoreUser()
                 {
                     FirstName = "Shawn",
-                    LastName =  "Wildermuth",
+                    LastName = "Wildermuth",
                     Email = "shawn@dutchtreat.com",
                     UserName = "shawn@dutchtreat.com"
                 };
@@ -44,7 +43,7 @@ namespace DutchTreat.Data
                 var filePath = Path.Combine(_environment.ContentRootPath, "Data/art.json");
                 var json = File.ReadAllText(filePath);
                 var products = JsonSerializer.Deserialize<IEnumerable<Product>>(json);
-                
+
                 _context.Products.AddRange(products);
 
                 var order = new Order()
@@ -52,7 +51,7 @@ namespace DutchTreat.Data
                     OrderDate = DateTime.Today,
                     OrderNumber = "10000",
                     Items = new List<OrderItem>()
-                    { 
+                    {
                         new OrderItem()
                         {
                             Product = products.First(),

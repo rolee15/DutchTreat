@@ -23,8 +23,9 @@
   </tbody>
   <tfoot>
     <tr>
-      <td colspan="5"><strong>Subtotal: {{ store.subtotal() | currency }}</strong></td>
+      <td colspan="5"><strong>Subtotal: {{ store.order.subtotal | currency }}</strong></td>
     </tr>
   </tfoot>
 </table>
+<a class="btn btn-success" *ngIf="store.order.items.length > 0" routerLink="checkout">Checkout</a> 
 <hr />

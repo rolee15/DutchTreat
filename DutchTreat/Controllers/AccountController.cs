@@ -79,7 +79,7 @@ namespace DutchTreat.Controllers
                 if (user != null)
                 {
                     var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-                    
+
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("Username and password match.");

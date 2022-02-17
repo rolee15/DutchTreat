@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using DutchTreat.Data.Entities;
 using DutchTreat.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DutchTreat.Controllers

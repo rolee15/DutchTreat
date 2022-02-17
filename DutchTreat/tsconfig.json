@@ -8,5 +8,6 @@
     "removeComments": false,
     "sourceMap": true,
     "target": "es5"
-  }
+  },
+  "strictPropertyInitialization": false
 }

@@ -1,6 +1,4 @@
-﻿using DutchTreat.Data.Entities;
-
-namespace DutchTreat.Data
+﻿namespace DutchTreat.Data
 {
     public interface IDutchRepository
     {

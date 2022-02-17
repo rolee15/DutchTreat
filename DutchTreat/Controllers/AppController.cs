@@ -6,7 +6,7 @@ namespace DutchTreat.Controllers
 {
     public class AppController : Controller
     {
-        
+
         private readonly IMailService _mailService;
         private readonly IDutchRepository _repository;
 

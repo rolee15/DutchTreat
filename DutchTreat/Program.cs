@@ -13,7 +13,7 @@ builder.Services.AddDbContext<DutchContext>(cfg =>
     cfg.UseSqlServer();
 });
 
-builder.Services.AddIdentity<StoreUser, IdentityRole>(options => 
+builder.Services.AddIdentity<StoreUser, IdentityRole>(options =>
     {
         options.User.RequireUniqueEmail = true;
         options.Password.RequireNonAlphanumeric = false;
@@ -23,7 +23,7 @@ builder.Services.AddIdentity<StoreUser, IdentityRole>(options =>
 builder.Services.AddAuthentication()
     .AddCookie()
     .AddJwtBearer(jwtOptions =>
-    {         
+    {
         jwtOptions.TokenValidationParameters = new()
         {
             ValidIssuer = builder.Configuration.GetSection("Tokens:Issuer").Value,

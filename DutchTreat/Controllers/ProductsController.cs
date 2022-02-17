@@ -1,6 +1,4 @@
-﻿using DutchTreat.Data.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace DutchTreat.Controllers
 {
