@@ -10,6 +10,8 @@ export class Store {
 
     public products: IProduct[];
     public order: IOrder;
+    public token = "";
+    public expiration = new Date();
 
     constructor(private http: HttpClient) {
         this.products = [];
@@ -22,6 +24,10 @@ export class Store {
                 this.products = data;
                 return;
             }));
+    }
+
+    get loginRequired(): boolean {
+        return this.token.length === 0 || this.expiration < new Date();
     }
 
     addToOrder(product: IProduct) {

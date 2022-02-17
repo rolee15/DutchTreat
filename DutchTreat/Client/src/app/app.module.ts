@@ -9,23 +9,27 @@ import { CartView } from './views/cartView.component';
 import router from './router';
 import { ShopPage } from './pages/shopPage.component';
 import { Checkout } from './pages/checkout.component';
+import { LoginPage } from './pages/loginPage.component';
+import { AuthActivator } from './services/authActivator.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProductListView,
-    CartView,
-    ShopPage,
-    Checkout
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    router
-  ],
-  providers: [
-    Store
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ProductListView,
+        CartView,
+        ShopPage,
+        Checkout,
+        LoginPage
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        router
+    ],
+    providers: [
+        Store,
+        AuthActivator
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
