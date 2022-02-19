@@ -3,7 +3,8 @@ import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { IOrder } from "../interfaces/order.interface";
 import { IProduct } from "../interfaces/product.interface";
-import { Order } from "../shared/Order";
+import { LoginRequest, LoginResults } from "../shared/LoginResults";
+import { Order, OrderItem } from "../shared/Order";
 
 @Injectable()
 export class Store {
@@ -18,16 +19,23 @@ export class Store {
         this.order = new Order();
     }
 
-    loadProducts(): Observable<void> {
+    loadProducts() {
         return this.http.get<IProduct[]>("/api/products")
             .pipe(map(data => {
                 this.products = data;
-                return;
             }));
     }
 
     get loginRequired(): boolean {
         return this.token.length === 0 || this.expiration < new Date();
+    }
+
+    login(creds: LoginRequest) {
+        return this.http.post<LoginResults>("/account/createtoken", creds)
+            .pipe(map(data => {
+                this.token = data.token;
+                this.expiration = data.expiration;
+            }));
     }
 
     addToOrder(product: IProduct) {
@@ -38,17 +46,17 @@ export class Store {
             item.quantity++;
         }
         else {
-            item = {
-                id: 0,
-                quantity: 1,
-                productId: product.id,
-                productTitle: product.title,
-                productArtId: product.artId,
-                productArtist: product.artist,
-                productCategory: product.category,
-                productSize: product.size,
-                unitPrice: product.price
-            };
+            item = new OrderItem();
+            item.id = 0;
+            item.quantity = 1;
+            item.productId = product.id;
+            item.productTitle = product.title;
+            item.productArtId = product.artId;
+            item.productArtist = product.artist;
+            item.productCategory = product.category;
+            item.productSize = product.size;
+            item.unitPrice = product.price;
+
             this.order?.items.push(item);
         }
     }
